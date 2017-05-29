@@ -1,0 +1,7 @@
+birthday=24-10-1996
+salary=109
+bmi=Normal
+sales=123
+age=20
+gender=M
+id=A123

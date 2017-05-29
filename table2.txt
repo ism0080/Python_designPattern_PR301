@@ -1,0 +1,7 @@
+id=A123
+gender=M
+age=20
+sales=001
+bmi=Overweight
+salary=44
+birthday=02-02-2000

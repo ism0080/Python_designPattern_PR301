@@ -1,0 +1,14 @@
+id=A123
+gender=M
+age=20
+sales=123
+bmi=Normal
+salary=109
+birthday=24-10-1996
+id=B234
+gender=F
+age=21
+sales=345
+bmi=Underweight
+salary=999
+birthday=26-03-1995

@@ -1,0 +1,1 @@
+id=A123, gender=M, age=20, sales=123, bmi=Normal, salary=109, birthday=24-10-1996
