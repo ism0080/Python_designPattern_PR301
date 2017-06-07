@@ -1,21 +1,27 @@
 from validator import Validator
 from database import DatabaseMaker
-from reader import FileReader
+from reader import *
 from display import PyGal
+import pathlib
 
 
 class Controller(object):
     def __init__(self):
         self.val = Validator()
         self.db = DatabaseMaker()
-        self.reader = FileReader()
+        # self.reader = FileReader()
         self.py = PyGal()
         self.converted_file = None
         self.file_count = 1
 
     def read_file(self, filename):
         try:
-            self.converted_file = self.reader.read(filename)
+            if pathlib.Path(filename).suffix == ".txt":
+                read_file = FileReader(TextFileReader())
+                self.converted_file = read_file.read_file(filename)
+            elif pathlib.Path(filename).suffix == ".csv":
+                read_file = FileReader(CSVReader())
+                self.converted_file = read_file.read_file(filename)
             for dict in self.converted_file:
                 print("FILE_DATA:", self.file_count, "\n", dict)
                 self.file_count += 1
