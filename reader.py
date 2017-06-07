@@ -42,10 +42,6 @@ class FileReader(object):
 
 
 class AbstractReader(metaclass=ABCMeta):
-    def __init__(self):
-        self.line = []
-        self.list_of_dictionaries = []
-
     @abstractmethod
     def read(self, filename):
         pass
@@ -53,7 +49,8 @@ class AbstractReader(metaclass=ABCMeta):
 
 class TextFileReader(AbstractReader):
     def __init__(self):
-        super().__init__()
+        self.__line = []
+        self.__list_of_dictionaries = []
 
     def read(self, filename):
         try:
@@ -61,43 +58,43 @@ class TextFileReader(AbstractReader):
                 file_data = file.read()
                 new_line_split = file_data.split('\n')
 
-                self.splits_on_comma_separation(new_line_split)
-                self.create_list_of_dictionaries()
+                self.__splits_on_comma_separation(new_line_split)
+                self.__create_list_of_dictionaries()
 
-            return self.list_of_dictionaries
+            return self.__list_of_dictionaries
         except IOError as err:
             print("The exception is: ", err)
             pass
 
-    def create_list_of_dictionaries(self):
-        for empty in self.list_of_dictionaries:
-            self.list_of_dictionaries[empty] \
-                = dict(e.split('=') for e in self.line[empty])
+    def __create_list_of_dictionaries(self):
+        for empty in self.__list_of_dictionaries:
+            self.__list_of_dictionaries[empty] \
+                = dict(e.split('=') for e in self.__line[empty])
 
-    def splits_on_comma_separation(self, new_line_split):
+    def __splits_on_comma_separation(self, new_line_split):
         i = 0
         for x in new_line_split:
-            self.line.extend([new_line_split[i].split(', ')])
-            self.list_of_dictionaries.extend([i])
+            self.__line.extend([new_line_split[i].split(', ')])
+            self.__list_of_dictionaries.extend([i])
             i += 1
 
 
 class CSVReader(AbstractReader):
     def __init__(self):
-        super().__init__()
+        self.__list_of_dictionaries = []
 
     def read(self, filename):
         try:
             with open(filename) as csvfile:
                 reader = csv.DictReader(csvfile)
-                self.create_list_of_dictionaries(reader)
+                self.__create_list_of_dictionaries(reader)
 
-            return self.list_of_dictionaries
+            return self.__list_of_dictionaries
         except IOError as err:
             print("The exception is: ", err)
             pass
 
-    def create_list_of_dictionaries(self, reader):
+    def __create_list_of_dictionaries(self, reader):
         for row in reader:
             data_dict = {'id': row['Empid'],
                          'gender': row['Gender'],
@@ -107,4 +104,4 @@ class CSVReader(AbstractReader):
                          'salary': row['Salary'],
                          'birthday': row['Birthday']}
 
-            self.list_of_dictionaries.extend([data_dict])
+            self.__list_of_dictionaries.extend([data_dict])

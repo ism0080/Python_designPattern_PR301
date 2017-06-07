@@ -1,7 +1,7 @@
 from validator import Validator
 from database import DatabaseMaker
 from reader import *
-from display import PyGal
+from display import *
 import pathlib
 
 
@@ -10,7 +10,7 @@ class Controller(object):
         self.val = Validator()
         self.db = DatabaseMaker()
         # self.reader = FileReader()
-        self.py = PyGal()
+        # self.py = PyGal()
         self.converted_file = None
         self.file_count = 1
 
@@ -121,14 +121,18 @@ class Controller(object):
                 value = input("What to see from the bar graph?")
                 data = self.db.bar_get(value)
                 display.update({value: data})
-            self.py_view(display)
+            flag = input("What type of chart? bar=b, pie=p")
+            self.py_view(display, flag)
         except Exception as err:
             print("The exception is: ", err)
 
-    def py_view(self, dictionary):
+    def py_view(self, dictionary, flag):
         try:
             id = self.db.bar_get('id')
-            self.py.bar_char(id, dictionary)
+            if flag == 'b':
+                Director(BarChartBuilder()).construct(dictionary, id)
+            if flag == 'p':
+                Director(PieChartBuilder()).construct(dictionary, id)
             # doesn't reach this exception but there just in case
         except Exception as err:  # pragma: no cover
             print("The exception is: ", err)
