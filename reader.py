@@ -87,16 +87,24 @@ class CSVReader(AbstractReader):
         super().__init__()
 
     def read(self, filename):
-        with open(filename) as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                data_dict = {'id': row['Empid'],
-                              'gender': row['Gender'],
-                              'age': row['Age'],
-                              'sales': row['Sales'],
-                              'bmi': row['BMI'],
-                              'salary': row['Salary'],
-                              'birthday': row['Birthday']}
+        try:
+            with open(filename) as csvfile:
+                reader = csv.DictReader(csvfile)
+                self.create_list_of_dictionaries(reader)
 
-                self.list_of_dictionaries.extend([data_dict])
-        return self.list_of_dictionaries
+            return self.list_of_dictionaries
+        except IOError as err:
+            print("The exception is: ", err)
+            pass
+
+    def create_list_of_dictionaries(self, reader):
+        for row in reader:
+            data_dict = {'id': row['Empid'],
+                         'gender': row['Gender'],
+                         'age': row['Age'],
+                         'sales': row['Sales'],
+                         'bmi': row['BMI'],
+                         'salary': row['Salary'],
+                         'birthday': row['Birthday']}
+
+            self.list_of_dictionaries.extend([data_dict])
