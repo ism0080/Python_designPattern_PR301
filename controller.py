@@ -121,7 +121,7 @@ class Controller(object):
                 value = input("What to see from the bar graph?")
                 data = self.db.bar_get(value)
                 display.update({value: data})
-            flag = input("What type of chart? bar=b, pie=p")
+            flag = input("What type of chart? bar=b, pie=p, radar=r, box=x:")
             self.py_view(display, flag)
         except Exception as err:
             print("The exception is: ", err)
@@ -130,9 +130,13 @@ class Controller(object):
         try:
             id = self.db.bar_get('id')
             if flag == 'b':
-                Director(BarChartBuilder()).construct(dictionary, id)
+                PyGal(BarChartBuilder()).construct(dictionary, id)
             if flag == 'p':
-                Director(PieChartBuilder()).construct(dictionary, id)
+                PyGal(PieChartBuilder()).construct(dictionary, id)
+            if flag == 'r':
+                PyGal(RadarChartBuilder()).construct(dictionary, id)
+            if flag == 'x':
+                PyGal(BoxChartBuilder()).construct(dictionary, id)
             # doesn't reach this exception but there just in case
         except Exception as err:  # pragma: no cover
             print("The exception is: ", err)

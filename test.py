@@ -1,20 +1,35 @@
-with open("table.txt", 'r') as file:
-    file_data = file.read()
-    # splits on newline
-    group = file_data.split('\n')
-    line = []
-    list_of_dictionaries = []
-    i = 0
-    for x in group:
-        line.extend([group[i].split(', ')])
-        list_of_dictionaries.extend([i])
-        i += 1
-    for empty in list_of_dictionaries:
-        list_of_dictionaries[empty] = dict(e.split('=') for e in line[empty])
-    for dictionary in list_of_dictionaries:
-        print(dictionary)
+# with open("table.txt", 'r') as file:
+#     file_data = file.read()
+#     # splits on newline
+#     group = file_data.split('\n')
+#     line = []
+#     list_of_dictionaries = []
+#     i = 0
+#     for x in group:
+#         line.extend([group[i].split(', ')])
+#         list_of_dictionaries.extend([i])
+#         i += 1
+#     for empty in list_of_dictionaries:
+#         list_of_dictionaries[empty] = dict(e.split('=') for e in line[empty])
+#     for dictionary in list_of_dictionaries:
+#         print(dictionary)
 
 
+import csv
+
+
+with open('luofeng-test.csv') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        data_dic = {'id': row['Empid'],
+                    'gender': row['Gender'],
+                    'age': row['Age'],
+                    'sales': row['Sales'],
+                    'bmi': row['BMI'],
+                    'salary': row['Salary'],
+                    'birthday': row['Birthday']}
+
+        print(data_dic)
 #
 # from datetime import date, datetime
 #
